@@ -20,14 +20,14 @@ try:
   filelist = lai['filelist']
 except:
   try:
-    print 'read from',pklfile
+    print('read from',pklfile)
     # try to load from pkl file
     lai = pickle.load(open(pklfile))
     data = lai['Lai_1km']
     sd = lai['LaiStdDev_1km']
     filelist = lai['filenames']
   except:
-    print'read from source files'
+    print('read from source files')
     # failed: read from original files
 
     get_filename = lambda f: f.split('/')[-1]

@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.ma as ma
 from osgeo import ogr,osr
-import gdal
+from osgeo import gdal
 
 
 def rasterise_vector ( raster_fname, vector_fname, where_statement, 
@@ -44,8 +44,8 @@ def rasterise_vector ( raster_fname, vector_fname, where_statement,
     raster_proj = g.GetProjectionRef()
     geoT = g.GetGeoTransform()
     if verbose:
-        print ">>> Opened file {:s}".format(fname)
-        print ">>> Projection: {:s}".format(proj)
+        print(">>> Opened file {:s}".format(fname))
+        print(">>> Projection: {:s}".format(proj))
     xs = []
     ys = []
     for x,y in [ [0, 0], [0, g.RasterYSize], [g.RasterXSize, g.RasterYSize], [g.RasterXSize, 0]]:
@@ -58,8 +58,8 @@ def rasterise_vector ( raster_fname, vector_fname, where_statement,
     nx = g.RasterXSize
     ny = g.RasterYSize
     if verbose:
-        print ">>> File size {:d} rows, {:d} columns".format(nx, ny)
-        print ">>> UL corner: {:g}, {:g}".format(min(xs), max(ys))
+        print(">>> File size {:d} rows, {:d} columns".format(nx, ny))
+        print(">>> UL corner: {:g}, {:g}".format(min(xs), max(ys)))
     
     src_ds = gdal.OpenEx(vector_fname)
     v = gdal.VectorTranslate('', src_ds, format = 'Memory', dstSRS=raster_proj,
@@ -71,7 +71,7 @@ def rasterise_vector ( raster_fname, vector_fname, where_statement,
                     width=nx, height=ny, noData=0, burnValues=1)
     
     if gg is not None:
-        print "Done!"
+        print("Done!")
     else:
         raise ValueError("Couldn't generate the mask. Check input parameters")
     return gg.ReadAsArray()

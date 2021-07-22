@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.ma as ma
-import gdal
+from osgeo import gdal
 
 
 def get_lai(filename, \
@@ -53,7 +53,7 @@ import numpy as np
 import sys
 sys.path.insert(0,'python')
 from get_lai import get_lai
-from raster_mask import raster_mask
+from raster_mask import rasterise_vector
 
 
 def read_lai(filelist,datadir='data',\
@@ -75,8 +75,8 @@ def read_lai(filelist,datadir='data',\
     '''
     if country:
         if verbose:
-		print "creating mask of %s"%country
-        # make a raster mask
+            print("creating mask of %s"%country)
+	# make a raster mask
         # from the layer UNITED KINGDOM in world.shp
         file_template = 'HDF4_EOS:EOS_GRID:"%s":MOD_Grid_MOD15A2:%s'
         file_spec = file_template%('data/%s'%filelist[0],'Lai_1km')
@@ -117,19 +117,19 @@ def read_lai(filelist,datadir='data',\
     # loop over each filename
     for f in np.sort(lai['filenames']):
         if verbose:
-		print '...',f
+            print('...',f)
         this_lai = get_lai('data/%s'%f,\
                            mincol=mincol,ncol=ncol,\
                            minrow=minrow,nrow=nrow)
-        for layer in data_fields.keys():
+        for layer in list(data_fields.keys()):
             # apply the mask
             if country:
                 new_mask = this_lai[layer].mask | small_mask
                 this_lai[layer] = ma.array(this_lai[layer],mask=new_mask)
             lai[layer].append(this_lai[layer])    
     if verbose:
-      print '... done' 
-    for layer in data_fields.keys():
+      print('... done') 
+    for layer in list(data_fields.keys()):
       lai[layer] = ma.array(lai[layer])
        
     return lai
@@ -163,7 +163,7 @@ def make_movie(lai,root,layer='Lai_1km',vmax=4.,vmin=0.,do_plot=False):
         fig = plt.figure(figsize=(7,7))
         # get some info from filename
         file_id = f.split('/')[-1].split('.')[-5][1:]
-        print file_id
+        print(file_id)
         plt.imshow(lai[layer][i],cmap=cmap,interpolation='none',\
                    vmax=vmax,vmin=vmin)
         # plot a jpg

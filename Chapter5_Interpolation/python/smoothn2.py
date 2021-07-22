@@ -331,7 +331,7 @@ def smoothn(y,nS0=10,axis=None,smoothOrder=2.0,sd=None,verbose=False,\
     #---
     while tol>TolZ and nit<MaxIter:
         if verbose:
-          print 'tol',tol,'nit',nit
+          print('tol',tol,'nit',nit)
         nit = nit+1;
         DCTy = dctND(Wtot*(y-z)+z,f=dct);
         if isauto and not remainder(log2(nit),1):
@@ -411,8 +411,8 @@ def smoothn(y,nS0=10,axis=None,smoothOrder=2.0,sd=None,verbose=False,\
   return z,s,exitflag,Wtot
 
 def warning(s1,s2):
-  print s1
-  print s2[0]
+  print(s1)
+  print(s2[0])
 
 ## GCV score
 #---
@@ -476,7 +476,7 @@ def InitialGuess(y,I):
     k = array(z.shape)
     m = ceil(k/10)+1
     d = []
-    for i in xrange(len(k)):
+    for i in range(len(k)):
       d.append(arange(m[i],k[i]))
     d = np.array(d).astype(int)
     z[d] = 0.
@@ -515,7 +515,7 @@ def peaks(n):
   xp = arange(n)
   [x,y] = meshgrid(xp,xp)
   z = np.zeros_like(x).astype(float)
-  for i in xrange(n/5):
+  for i in range(n/5):
     x0 = random()*n
     y0 = random()*n
     sdx = random()*n/4.
@@ -564,7 +564,7 @@ def test3(axis=None):
    n = 256;
    y0 = peaks(n);
    y = (y0 + random(shape(y0))*2 - 1.0).flatten();
-   I = np.random.permutation(range(n**2));
+   I = np.random.permutation(list(range(n**2)));
    y[I[1:n**2*0.5]] = nan; # lose 50% of data
    y = y.reshape(y0.shape)
    y[40:90,140:190] = nan; # create a hole
@@ -623,7 +623,7 @@ def test6(noise=0.05,nout=30):
   Vy0 = sin(2*pi*x+pi/2)*sin(2*pi*y);
   Vx = Vx0 + noise*randn(24,24); # adding Gaussian noise
   Vy = Vy0 + noise*randn(24,24); # adding Gaussian noise
-  I = np.random.permutation(range(Vx.size))
+  I = np.random.permutation(list(range(Vx.size)))
   Vx = Vx.flatten()
   Vx[I[0:nout]] = (rand(nout,1)-0.5)*5; # adding outliers
   Vx = Vx.reshape(Vy.shape)
@@ -644,7 +644,7 @@ def sparseSVD(D):
   try:
     import sparsesvd
   except:
-    print 'bummer ... better get sparsesvd'
+    print('bummer ... better get sparsesvd')
     exit(0)
   Ds = scipy.sparse.csc_matrix(D)
   a = sparsesvd.sparsesvd(Ds,Ds.shape[0])

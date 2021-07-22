@@ -331,7 +331,7 @@ def smoothn(y,nS0=10,axis=None,smoothOrder=2.0,sd=None,verbose=False,\
     #---
     while tol>TolZ and nit<MaxIter:
         if verbose:
-          print('tol',tol,'nit',nit)
+          print(('tol',tol,'nit',nit))
         nit = nit+1;
         DCTy = dctND(Wtot*(y-z)+z,f=dct);
         if isauto and not remainder(log2(nit),1):
@@ -412,7 +412,7 @@ def smoothn(y,nS0=10,axis=None,smoothOrder=2.0,sd=None,verbose=False,\
 
 def warning(s1,s2):
   print(s1)
-  print(s2[0])
+  print((s2[0]))
 
 ## GCV score
 #---
@@ -476,7 +476,7 @@ def InitialGuess(y,I):
     k = array(z.shape)
     m = ceil(k/10)+1
     d = []
-    for i in xrange(len(k)):
+    for i in range(len(k)):
       d.append(arange(m[i],k[i]))
     d = np.array(d).astype(int)
     z[d] = 0.
@@ -519,7 +519,7 @@ def peaks(n):
   xp = arange(n)
   [x,y] = meshgrid(xp,xp)
   z = np.zeros_like(x).astype(float)
-  for i in xrange(n/5):
+  for i in range(n/5):
     x0 = random()*n
     y0 = random()*n
     sdx = random()*n/4.

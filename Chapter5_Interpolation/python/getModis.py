@@ -1,5 +1,5 @@
-from HTMLParser import HTMLParser
-import urllib2
+from html.parser import HTMLParser
+import urllib.request, urllib.error, urllib.parse
 import numpy as np
 import wget
 
@@ -13,7 +13,7 @@ tile = 'h31v11'
 dates = '2013.02.18'
 
 # read htl of base url 
-response = urllib2.urlopen(url + dates)
+response = urllib.request.urlopen(url + dates)
 html = response.read()
 tile = 'h31v11'
 date = '2013.02.18'
@@ -32,7 +32,7 @@ class MyHTMLParser(HTMLParser):
           if (fdata[-1] == 'hdf') and (fdata[2] == tile):
             geturl = url + '/'  + dates + '/' + data
             # pull dataset
-            print geturl
+            print(geturl)
             filename = wget.download(geturl)
 
 parser = MyHTMLParser()

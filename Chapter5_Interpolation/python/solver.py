@@ -84,7 +84,7 @@ job_server = pp.Server()
 jobs = []
 
 
-for i in xrange(len_x):
+for i in range(len_x):
     r,c = rows[i],cols[i]
     # progress bar
     #if i%(len_x/20) == 0:

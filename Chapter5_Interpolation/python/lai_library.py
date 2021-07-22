@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.ma as ma
 from osgeo import ogr,osr
-import gdal
+from osgeo import gdal
 
 from regularise import regularise
 
@@ -45,8 +45,8 @@ def rasterise_vector ( raster_fname, vector_fname, where_statement,
     raster_proj = g.GetProjectionRef()
     geoT = g.GetGeoTransform()
     if verbose:
-        print ">>> Opened file {:s}".format(raster_fname)
-        print ">>> Projection: {:s}".format(raster_proj)
+        print(">>> Opened file {:s}".format(raster_fname))
+        print(">>> Projection: {:s}".format(raster_proj))
     xs = []
     ys = []
     for x,y in [ [0, 0], [0, g.RasterYSize], [g.RasterXSize, g.RasterYSize], [g.RasterXSize, 0]]:
@@ -59,8 +59,8 @@ def rasterise_vector ( raster_fname, vector_fname, where_statement,
     nx = g.RasterXSize
     ny = g.RasterYSize
     if verbose:
-        print ">>> File size {:d} rows, {:d} columns".format(nx, ny)
-        print ">>> UL corner: {:g}, {:g}".format(min(xs), max(ys))
+        print(">>> File size {:d} rows, {:d} columns".format(nx, ny))
+        print(">>> UL corner: {:g}, {:g}".format(min(xs), max(ys)))
     
     src_ds = gdal.OpenEx(vector_fname)
     if src_ds is None:
@@ -74,7 +74,7 @@ def rasterise_vector ( raster_fname, vector_fname, where_statement,
                     width=nx, height=ny, noData=0, burnValues=1)
     
     if gg is not None:
-        print "Done!"
+        print("Done!")
     else:
         raise ValueError("Couldn't generate the mask. Check input parameters")
     return gg.ReadAsArray()
@@ -227,7 +227,7 @@ def make_movie(lai,root,layer='Lai_1km',vmax=4.,vmin=0.,do_plot=False):
         fig = plt.figure(figsize=(7,7))
         # get some info from filename
         file_id = f.split('/')[-1].split('.')[-5][1:]
-        print file_id
+        print(file_id)
         plt.imshow(lai[layer][i],cmap=cmap,interpolation='none',\
                    vmax=vmax,vmin=vmin)
         # plot a jpg

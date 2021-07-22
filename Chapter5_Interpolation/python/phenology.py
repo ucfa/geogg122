@@ -24,7 +24,7 @@ def fourier_model ( p, agdd, n_harm):
     t = np.arange ( 1, integration_time + 1)
     result = t*.0 + p[0]
     w=1
-    for i in xrange ( 1, n_harm*4, 4 ):
+    for i in range ( 1, n_harm*4, 4 ):
         result =result + p[i]*np.cos ( 2.0*np.pi*w*t/integration_time + p[i+1] ) \
             + p[i+2]*np.sin ( 2.0*np.pi*w*t/integration_time + p[i+3] )    
         w = w+1
@@ -91,12 +91,12 @@ def fit_phenology_model ( longitude, latitude, year,temp, pheno_model,  \
     elif isinstance ( year, int ) or isinstance ( year, float ):
         years = [ year]
     else:
-        raise TypeError, "year has to be a scalar or  list"
+        raise TypeError("year has to be a scalar or  list")
     ndvi_all = get_ndvi (  longitude, latitude )/10000.
 
     agdd_all = calculate_gdd ( temp, tbase=tbase, tmax=tmax )
     t_axis = []
-    for y in xrange ( 2001, 2012 ):
+    for y in range ( 2001, 2012 ):
         if y % 4 == 0:
             if do_agdd:
                 t_axis = np.r_[t_axis, agdd_all[ (y-2001)*365:(y-2001+1)*367] ]
@@ -123,7 +123,7 @@ def fit_phenology_model ( longitude, latitude, year,temp, pheno_model,  \
         args=( pheno_func, ndvi_all, t_axis, years, n_harm ), maxfev=1000000 )
     fwd_model = []
     if pheno_model != "fourier":
-        for y in xrange( 2001, 2012):
+        for y in range( 2001, 2012):
             if y % 4 == 0:
                 if do_agdd:
                     ax = pheno_func ( xsol, agdd_all[ \
@@ -140,7 +140,7 @@ def fit_phenology_model ( longitude, latitude, year,temp, pheno_model,  \
                 [fwd_model.append ( x ) for x in ax]
                     
     else:
-        for y in xrange( 2001, 2012):
+        for y in range( 2001, 2012):
             if y % 4 == 0:
                 if do_agdd:
                     ax = pheno_func ( xsol, agdd_all[ \
@@ -229,7 +229,7 @@ def calculate_gdd ( temp, tbase=10, tmax=40 ):
             b = np.clip ( temp, tbase, tmax )
             c = np.where ( b-tbase < 0, 0, b-tbase )
             agdd = np.zeros( 4017 )
-            for y in xrange ( 11 ):
+            for y in range ( 11 ):
                 a = c[y*365:(y+1)*365]
                 o = a.cumsum ( axis=0)
                 agdd[y*365:(y+1)*365] = o
@@ -245,7 +245,7 @@ def get_ndvi ( longitude, latitude, \
     (ix, iy) = pixel_loc ( longitude, latitude )
     data = []
     t_range = []
-    for year in xrange ( 2001, 2012 ):
+    for year in range ( 2001, 2012 ):
         gdal_dataset = gdal.Open ( "%s/NDVI_%04d.tif" % ( data_dir, year ) )
         data = np.r_[ data, gdal_dataset.ReadAsArray ()[ :, iy, ix] ] 
         t_range +=  [ matplotlib.dates.datestr2num("%04d-%d-01" % (year, m )) \
