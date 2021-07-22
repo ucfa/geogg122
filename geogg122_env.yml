@@ -1,0 +1,14 @@
+name: general
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - jupyter
+  - numpy
+  - gdal
+  - scipy
+  - matplotlib
+  - jupyter_contrib_nbextensions
+  - requests
+  - beautifulsoup4
+prefix: /home/ballen/miniconda3/envs/general
